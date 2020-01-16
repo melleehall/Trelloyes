@@ -16,6 +16,9 @@ function List(props) {
         </header>
         <div className='List-cards'>
             {cardComponents}
+            <button type='button' className='List-add-button'> 
+                + Add Random Card 
+            </button>
         </div>
       </section>
     )
