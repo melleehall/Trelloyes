@@ -9,4 +9,11 @@ describe('Card component', () => {
         ReactDOM.render(<Card />, div);
         ReactDOM.unmountComponentAtNode(div);
     });
+
+    it('renders the UI as expected', () => {
+        const tree = renderer
+            .create(<Card />)
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
 });

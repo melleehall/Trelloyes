@@ -5,23 +5,32 @@ import React from 'react';
 import Card from './Card';
 import './List.css';
 
-function List(props) {
-    const header = `${props.header}`
-    const cardComponents = props.cards.map(item => <Card key={item.id} title={item.title} content={item.content}></Card>);
+export default function List(props) {
+  const header = `${props.header}`
+  // map is the logic in this code that results in List.test.js requring a placeholder prop
+  const cardComponents = props.cards.map(item => 
+    <Card 
+      key={item.id} 
+      title={item.title} 
+      content={item.content}
+      onDeleteItem={props.onDeleteItem}
+      >  
+    </Card>);
 
-    return (
-      <section className='List'>
-        <header className='List-header'>
-            <h2>{props.header}</h2>
-        </header>
-        <div className='List-cards'>
-            {cardComponents}
-            <button type='button' className='List-add-button'> 
-                + Add Random Card 
-            </button>
-        </div>
-      </section>
-    )
-  }
-  
-  export default List;
+  return (
+    <section className='List'>
+      <header className='List-header'>
+          <h2>{props.header}</h2>
+      </header>
+      <div className='List-cards'>
+          {cardComponents}
+          <button 
+            onClick={() => props.onAddItem()}
+            type='button'   
+            className='List-add-button'> 
+              + Add Random Card 
+          </button>
+      </div>
+    </section>
+  )
+}

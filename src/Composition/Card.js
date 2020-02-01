@@ -7,12 +7,17 @@ import React from 'react';
 import './Card.css';
 
 function Card(props) {
+    // these values are strings
     const title = props.title;
     const content = props.content;
 
     return (
       <div className='Card'>
-        <button type='button'> delete </button>
+        <button 
+          onClick={() => props.onDeleteItem(props.item)}
+          type='button'> 
+          delete 
+        </button>
         <h3>{title}</h3>
         <p>{content}</p>
       </div>
