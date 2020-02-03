@@ -10,16 +10,18 @@ function Card(props) {
     // these values are strings
     const title = props.title;
     const content = props.content;
+    const allCardsID = props.allCardsID;
 
     return (
       <div className='Card'>
         <button 
-          onClick={() => props.onDeleteItem(props.item)}
+          onClick={() => props.onDeleteItem(props.allCardsID)}
           type='button'> 
           delete 
         </button>
         <h3>{title}</h3>
         <p>{content}</p>
+        <p>{allCardsID}</p>
       </div>
     )
   }

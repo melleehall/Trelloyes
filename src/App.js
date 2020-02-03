@@ -1,7 +1,6 @@
 import React from 'react';
 import List from './Composition/List';
 import './App.css';
-import STORE from './store.js';
 
 export default class App extends React.Component {
   state = {
@@ -46,31 +45,70 @@ export default class App extends React.Component {
     }
   }
 
-  handleDeleteItem = (item) => {
-    console.log({item})
+  handleAddItem = (listIDNumber) => {
+    console.log('adding item to list #', listIDNumber)
 
-  }
+    // function for generating a random card
+    const newRandomCard = () => {
+      const id = Math.random().toString(36).substring(2, 4)
+        + Math.random().toString(36).substring(2, 4);
+      var newCard = {};
+      newCard[id] = {
+        id: `${id}`, 
+        title: 'Thirteenth card' + `${id}`, 
+        content: 'lorem ipsum' 
+      }
+      return newCard;
+    }
 
-  handleAddItem = (item) => {
-    console.log('added item')
-    // const newRandomCard = () => {
-    //   const id = Math.random().toString(36).substring(2, 4)
-    //     + Math.random().toString(36).substring(2, 4);
-    //   return {
-    //     id,
-    //     title: `Random Card ${id}`,
-    //     content: 'lorem ipsum',
-    //   }
-    // }
-    // const newItems = [
-    //   ...this.state.lists,
-    //   newRandomCard
-    // ]
-    // this.setState({
-    //   allCards: newItems
-    // })
+    // add key value pair to allCards object
+    const newRanCard = newRandomCard()
+    console.log(newRanCard)
+
+    const newKey = Object.keys(newRanCard)[0]
+    const newCard = {};
+    newCard[newKey]= {
+      id: `${newKey}`, 
+      title: newRanCard[`${newKey}`].title, 
+      content: newRanCard[`${newKey}`].content 
+    }
+
+    var currentCards = this.state.allCards;
+    // creating new key/value pair inside of allCards
+    currentCards[newKey] = newCard[newKey];
+  
+
+    this.setState({
+      allCards: currentCards
+    })
+
+    console.log(this.state.allCards)
+
+    // insert card's id in the appropriate lists's cardIds
+  //   console.log(this.state.lists[`${listIDNumber}`])
+    // loop through state.lists until i find the id that matches the argument for this function is 
+    
   }
   
+ // function omit = (obj, keyToOmit) => {
+  //   return Object.entries(obj).reduce(
+  //     (newObj, [key, value]) =>
+  //         key === keyToOmit ? newObj : {...newObj, [key]: value},
+  //     {}
+  //   );
+  // }
+
+  handleDeleteItem = (cardIDLetter) => {
+    console.log('handle delete item called', {cardIDLetter})
+    // remove all references to this card from state
+    
+    // function omit({this.state.allCards}, )
+
+    // remove the references to deleted card in each list's cardIds 
+
+    // use map and filter to generate a new lists array
+  }
+
   listComponents = () => {
     const listsArray = this.state.lists
     const listComponents = listsArray.map(item => {
@@ -78,6 +116,7 @@ export default class App extends React.Component {
       <List 
         onDeleteItem={this.handleDeleteItem}
         onAddItem={this.handleAddItem}
+        listID={item.id}
         header={item.header} 
         cards={item.cardIds.map(id => this.state.allCards[id])}
         key={item.id}>
