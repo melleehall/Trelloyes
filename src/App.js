@@ -65,7 +65,7 @@ export default class App extends React.Component {
     const newRanCard = newRandomCard()
     console.log(newRanCard)
 
-    const newKey = Object.keys(newRanCard)[0]
+    const newKey = Object.keys(newRanCard)
     const newCard = {};
     newCard[newKey]= {
       id: `${newKey}`, 
@@ -73,40 +73,53 @@ export default class App extends React.Component {
       content: newRanCard[`${newKey}`].content 
     }
 
-    var currentCards = this.state.allCards;
+    const currentCards = this.state.allCards;
     // creating new key/value pair inside of allCards
     currentCards[newKey] = newCard[newKey];
   
-
     this.setState({
       allCards: currentCards
     })
 
-    console.log(this.state.allCards)
-
     // insert card's id in the appropriate lists's cardIds
-  //   console.log(this.state.lists[`${listIDNumber}`])
-    // loop through state.lists until i find the id that matches the argument for this function is 
-    
+    const selectedList = this.state.lists[`${listIDNumber}` - 1].cardIds
+    selectedList.push(`${newKey}`)
   }
   
- // function omit = (obj, keyToOmit) => {
-  //   return Object.entries(obj).reduce(
-  //     (newObj, [key, value]) =>
-  //         key === keyToOmit ? newObj : {...newObj, [key]: value},
-  //     {}
-  //   );
-  // }
 
   handleDeleteItem = (cardIDLetter) => {
+    const { lists, allCards } = this.state;
+
     console.log('handle delete item called', {cardIDLetter})
-    // remove all references to this card from state
+
+    function omit (obj, keyToOmit) {
+      return Object.entries(obj).reduce(
+        (newObj, [key, value]) =>
+            key === keyToOmit ? newObj : {...newObj, [key]: value},
+        {}
+      );
+    };
+
+    const newAllCards = omit(allCards, cardIDLetter);
     
-    // function omit({this.state.allCards}, )
+    this.setState({
+      allCards: newAllCards
+    })
 
-    // remove the references to deleted card in each list's cardIds 
+    // use map method to create a new array from the existing array of list objects
+    // applying a function to each one of the elements of the original array
+    const newLists = lists.map(list => {
+      // use the filter method to pass each object's cardId's array 
+      // and filter for items equal to the cardID we are omiting
+      const idsArray = list['cardIds'];
+      const newIDsArray = idsArray.filter(id => id !== cardIDLetter);
+      list['cardIds'] = newIDsArray;
+      return list
+    })
 
-    // use map and filter to generate a new lists array
+    this.setState({
+      lists: newLists
+    })
   }
 
   listComponents = () => {
